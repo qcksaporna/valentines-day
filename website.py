@@ -112,7 +112,7 @@ st.markdown("</div>", unsafe_allow_html=True)
 # YES BUTTON (CENTERED)
 # =========================
 if st.session_state.yes_clicks < MAX_CLICKS:
-    font_size = 22 + st.session_state.yes_clicks * 10
+    font_size = 22 + st.session_state.yes_clicks * 50
     padding_y = 12 + st.session_state.yes_clicks * 5
     padding_x = 32 + st.session_state.yes_clicks * 10
 
@@ -122,6 +122,7 @@ if st.session_state.yes_clicks < MAX_CLICKS:
     if st.button(f"YES ❤️", key="yes_button"):
         st.session_state.yes_clicks += 1
     st.markdown("</div>", unsafe_allow_html=True)
+
 
 
 
