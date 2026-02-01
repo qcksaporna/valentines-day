@@ -1,5 +1,6 @@
 import streamlit as st
 import random
+import time
 
 # =========================
 # CONFIGURATION
@@ -16,7 +17,7 @@ NOTES = [
     "And I wanted to make it special",
     "Almost there…",
     "asim",
-     "bantot",
+    "bantot",
     "wala nang bawian to!!",
     "i love you from my hypothalamus" 
 ]
@@ -31,22 +32,26 @@ st.set_page_config(
 )
 
 # =========================
-# STATE
+# STATE MANAGEMENT
 # =========================
 if "yes_clicks" not in st.session_state:
     st.session_state.yes_clicks = 0
+
+# Initialize random position state if it doesn't exist
+if "btn_top" not in st.session_state:
+    st.session_state.btn_top = 50  # Start roughly in middle
+    st.session_state.btn_left = 50
 
 # =========================
 # STYLING
 # =========================
 st.markdown("""
 <style>
-/* Gradient background: pink center, violet & blue sides */
+/* Gradient background */
 body {
     background: radial-gradient(circle at center, #ffb6c1 40%, #8a2be2 70%, #00bfff 100%);
     font-family: 'Segoe UI', sans-serif;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden; /* Hide scrollbars so button doesn't go off edge easily */
     margin: 0;
 }
 
@@ -59,33 +64,19 @@ body {
     max-width: 450px;
     margin: 8% auto;
     color: white;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* Headings */
-h1, h2 {
-    margin: 0.5rem 0;
-}
-
-/* YES button */
+/* General Button Style */
 div.stButton > button {
     border-radius: 50px;
     background-color: #ff69b4;
     color: white;
     font-weight: bold;
-    transition: all 0.3s ease;
-}
-
-div.stButton > button:hover {
-    background-color: #ff85c1;
-    transform: scale(1.05);
-}
-
-/* Mobile responsiveness */
-@media (max-width: 480px) {
-    div.stButton > button {
-        font-size: 20px !important;
-        padding: 12px 32px !important;
-    }
+    border: 2px solid white;
+    box-shadow: 0px 0px 15px rgba(255, 105, 180, 0.7);
+    transition: all 0.5s ease; /* Makes it glide smoothly */
 }
 </style>
 """, unsafe_allow_html=True)
@@ -108,22 +99,50 @@ else:
     """, unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
+
 # =========================
-# YES BUTTON (CENTERED)
+# FLOATING BUTTON LOGIC
 # =========================
 if st.session_state.yes_clicks < MAX_CLICKS:
-    font_size = 22 + st.session_state.yes_clicks * 50
-    padding_y = 12 + st.session_state.yes_clicks * 5
-    padding_x = 32 + st.session_state.yes_clicks * 10
+    
+    # 1. Calculate Size (Growing effect)
+    font_size = 20 + (st.session_state.yes_clicks * 2) 
+    padding = 10 + (st.session_state.yes_clicks * 2)
+    
+    # 2. Get Coordinates from State
+    top_pos = st.session_state.btn_top
+    left_pos = st.session_state.btn_left
+    
+    # 3. Determine Position Type
+    # If it's the very first click (0), keep it relative (centered). 
+    # After that, switch to 'fixed' so it jumps around.
+    pos_type = "relative" if st.session_state.yes_clicks == 0 else "fixed"
+    
+    # 4. Inject Dynamic CSS for the button
+    st.markdown(f"""
+    <style>
+    div.stButton > button {{
+        position: {pos_type} !important;
+        top: {top_pos}% !important;
+        left: {left_pos}% !important;
+        font-size: {font_size}px !important;
+        padding: {padding}px !important;
+        z-index: 9999; /* Ensure it floats above everything */
+    }}
+    </style>
+    """, unsafe_allow_html=True)
 
-    # Centered button
-    st.markdown("<div style='display:flex; justify-content:center; margin-top:2rem;'>", unsafe_allow_html=True)
-    # Only ONE real button, no extra hidden buttons
-    if st.button(f"YES ❤️", key="yes_button"):
-        st.session_state.yes_clicks += 1
-    st.markdown("</div>", unsafe_allow_html=True)
-
-
-
-
-
+    # 5. Render Button
+    # We put it in a container to prevent layout shifting
+    col1, col2, col3 = st.columns([1,1,1])
+    with col2:
+        if st.button(f"YES ❤️", key="yes_button"):
+            # Update Click Count
+            st.session_state.yes_clicks += 1
+            
+            # Generate NEW Random Position for next reload
+            # We keep it between 10% and 80% to keep it on screen
+            st.session_state.btn_top = random.randint(10, 80)
+            st.session_state.btn_left = random.randint(10, 80)
+            
+            st.rerun()
