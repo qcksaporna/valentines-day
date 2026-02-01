@@ -17,7 +17,7 @@ NOTES = [
     "Almost there…",
     "asim",
      "bantot",
-    "wala nang bawian to!!"
+    "wala nang bawian to!!",
     "i love you from my hypothalamus" 
 ]
 
@@ -122,4 +122,5 @@ if st.session_state.yes_clicks < MAX_CLICKS:
     if st.button(f"YES ❤️", key="yes_button"):
         st.session_state.yes_clicks += 1
     st.markdown("</div>", unsafe_allow_html=True)
+
 
