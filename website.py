@@ -94,7 +94,7 @@ div.stButton > button:hover {
 # CARD UI
 # =========================
 st.markdown("<div class='card'>", unsafe_allow_html=True)
-st.markdown("<h1>💖 Will You Be My Valentine?</h1>", unsafe_allow_html=True)
+st.markdown("<h1>💖 You will Be My Valentine?</h1>", unsafe_allow_html=True)
 st.markdown("<h2>💖 💙 💜 💌 💍</h2>", unsafe_allow_html=True)
 
 if st.session_state.yes_clicks < MAX_CLICKS:
@@ -122,5 +122,6 @@ if st.session_state.yes_clicks < MAX_CLICKS:
     if st.button(f"YES ❤️", key="yes_button"):
         st.session_state.yes_clicks += 1
     st.markdown("</div>", unsafe_allow_html=True)
+
 
 
