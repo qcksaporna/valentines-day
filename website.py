@@ -4,15 +4,21 @@ import random
 # =========================
 # CONFIGURATION
 # =========================
-PAGE_TITLE = "Valentine’s Invitation"
+PAGE_TITLE = "you will be my valentine!"
 PAGE_ICON = "💖"
-MAX_CLICKS = 4
+MAX_CLICKS = 10
 
 NOTES = [
-    "💖 Are you sure?",
-    "💙 I promise it will be special",
-    "💜 Almost there…",
-    "💌 No turning back now"
+    "You are sure!",
+    "This is our first valentine's day together",
+    "I promise it will be happy",
+    "Because you make me so happy",
+    "And I wanted to make it special",
+    "Almost there…",
+    "asim",
+     "bantot",
+    "wala nang bawian to!!"
+    "i love you from my hypothalamus" 
 ]
 
 # =========================
@@ -116,3 +122,4 @@ if st.session_state.yes_clicks < MAX_CLICKS:
     if st.button(f"YES ❤️", key="yes_button"):
         st.session_state.yes_clicks += 1
     st.markdown("</div>", unsafe_allow_html=True)
+
