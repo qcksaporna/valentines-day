@@ -7,7 +7,7 @@ import time
 # =========================
 PAGE_TITLE = "you will be my valentine!"
 PAGE_ICON = "💖"
-MAX_CLICKS = 10
+MAX_CLICKS = 14
 
 NOTES = [
     "You are sure!",
@@ -18,8 +18,12 @@ NOTES = [
     "Almost there…",
     "asim",
     "bantot",
+    "impakta",
     "wala nang bawian to!!",
-    "i love you from my hypothalamus" 
+    "wala ka nang magagawa",
+    "its me your lovie dovie boyfriend",
+    "i love you from my hypothalamus",
+    "mwaaaaaaaaaaa mwaaaaaaaaaaa"
 ]
 
 # =========================
@@ -95,7 +99,7 @@ else:
     st.markdown("""
     <h1>🎉 IT’S A DATE 🎉</h1>
     <h2>💞 Thank you for saying YES 💞</h2>
-    <h3>💖💙💜 I can’t wait to spend Valentine’s with you 💖💙💜</h3>
+    <h3>💙💜 I can’t wait to spend Valentine’s with you 💙💜</h3>
     """, unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
@@ -148,5 +152,6 @@ if st.session_state.yes_clicks < MAX_CLICKS:
             st.session_state.btn_top = random.randint(10, 80)
             st.session_state.btn_left = random.randint(10, 80)
             st.rerun()
+
 
 
