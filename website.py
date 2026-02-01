@@ -12,7 +12,7 @@ MAX_CLICKS = 14
 # ------------------------------------------------------
 # 📷 PASTE YOUR GIF LINKS HERE
 # ------------------------------------------------------
-
+BG_GIF = "https://media.giphy.com/media/LpDmM2wSt6Hm5fKJVa/giphy.gif"
 MAIN_GIF = "https://media.tenor.com/wIx44jsp4DMAAAAi/kiss.gif" 
 
 SUCCESS_GIF = "https://media.tenor.com/OrxXcqX25KcAAAAi/dudu-bubu-love-gif.gif"
@@ -67,6 +67,20 @@ body {
     margin: 0;
 }
 
+.stApp::before {{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('{BG_GIF}');
+    background-size: 150px;  /* Adjust size of the little hearts */
+    background-repeat: repeat; /* This makes it look like "multiple" GIFs */
+    opacity: 0.5; /* Make it subtle so text is readable */
+    z-index: -1;  /* Put it behind the content */
+    pointer-events: none;
+}}
 /* Center card */
 .card {
     background: rgba(255, 255, 255, 0.25);
@@ -168,4 +182,5 @@ if st.session_state.yes_clicks < MAX_CLICKS:
             st.session_state.btn_top = random.randint(10, 80)
             st.session_state.btn_left = random.randint(10, 80)
             st.rerun()
+
 
