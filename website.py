@@ -51,7 +51,7 @@ if "yes_clicks" not in st.session_state:
     st.session_state.yes_clicks = 0
 
 if "btn_top" not in st.session_state:
-    st.session_state.btn_top = 50  
+    st.session_state.btn_top = 50
     st.session_state.btn_left = 50
 
 # =========================
@@ -63,30 +63,34 @@ st.markdown("""
 body {
     background: radial-gradient(circle at center, #ffb6c1 40%, #8a2be2 70%, #00bfff 100%);
     font-family: 'Segoe UI', sans-serif;
-    overflow: hidden; 
+    overflow: hidden;
     margin: 0;
 }
 
 /* Center card */
 .card {
-    background: rgba(255, 255, 255, 0.25); /* Made slightly more opaque for the GIF */
+    background: rgba(255, 255, 255, 0.25);
     padding: 2.5rem;
     border-radius: 24px;
     text-align: center;
     max-width: 450px;
-    margin: 5% auto; /* Adjusted margin */
+    margin: 5% auto;
     color: white;
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* Images in card */
+/* --- UPDATED IMAGE STYLING FOR CENTERING --- */
 .card-img {
+    display: block;           /* Ensures it behaves like a block element */
+    margin-left: auto;        /* Auto margin on left */
+    margin-right: auto;       /* Auto margin on right centers it */
+    margin-bottom: 20px;      /* Keep the bottom spacing */
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    margin-bottom: 20px;
     max-width: 100%;
 }
+/* ------------------------------------------- */
 
 /* General Button Style */
 div.stButton > button {
@@ -96,7 +100,7 @@ div.stButton > button {
     font-weight: bold;
     border: 2px solid white;
     box-shadow: 0px 0px 15px rgba(255, 105, 180, 0.7);
-    transition: all 0.5s ease; 
+    transition: all 0.5s ease;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -130,16 +134,16 @@ st.markdown("</div>", unsafe_allow_html=True)
 # FLOATING BUTTON LOGIC
 # =========================
 if st.session_state.yes_clicks < MAX_CLICKS:
-    
+
     font_size = 22 + (st.session_state.yes_clicks * 2)
     padding_y = 12 + (st.session_state.yes_clicks * 2)
     padding_x = 24 + (st.session_state.yes_clicks * 4)
 
     top_pos = st.session_state.btn_top
     left_pos = st.session_state.btn_left
-    
+
     pos_type = "relative" if st.session_state.yes_clicks == 0 else "fixed"
-    
+
     st.markdown(f"""
     <style>
     div.stButton > button {{
