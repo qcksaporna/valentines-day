@@ -9,6 +9,15 @@ PAGE_TITLE = "you will be my valentine!"
 PAGE_ICON = "💖"
 MAX_CLICKS = 14
 
+# ------------------------------------------------------
+# 📷 PASTE YOUR GIF LINKS HERE
+# ------------------------------------------------------
+
+MAIN_GIF = "https://media.tenor.com/wIx44jsp4DMAAAAi/kiss.gif" 
+
+SUCCESS_GIF = "https://media.tenor.com/OrxXcqX25KcAAAAi/dudu-bubu-love-gif.gif"
+# ------------------------------------------------------
+
 NOTES = [
     "You are sure!",
     "This is our first valentine's day together",
@@ -41,9 +50,8 @@ st.set_page_config(
 if "yes_clicks" not in st.session_state:
     st.session_state.yes_clicks = 0
 
-# Initialize random position state if it doesn't exist
 if "btn_top" not in st.session_state:
-    st.session_state.btn_top = 50  # Start roughly in middle
+    st.session_state.btn_top = 50  
     st.session_state.btn_left = 50
 
 # =========================
@@ -55,21 +63,29 @@ st.markdown("""
 body {
     background: radial-gradient(circle at center, #ffb6c1 40%, #8a2be2 70%, #00bfff 100%);
     font-family: 'Segoe UI', sans-serif;
-    overflow: hidden; /* Hide scrollbars */
+    overflow: hidden; 
     margin: 0;
 }
 
 /* Center card */
 .card {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.25); /* Made slightly more opaque for the GIF */
     padding: 2.5rem;
     border-radius: 24px;
     text-align: center;
     max-width: 450px;
-    margin: 8% auto;
+    margin: 5% auto; /* Adjusted margin */
     color: white;
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Images in card */
+.card-img {
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+    max-width: 100%;
 }
 
 /* General Button Style */
@@ -89,13 +105,19 @@ div.stButton > button {
 # CARD UI
 # =========================
 st.markdown("<div class='card'>", unsafe_allow_html=True)
-st.markdown("<h1>❤️You will Be My Valentine!❤️</h1>", unsafe_allow_html=True)
-st.markdown("<h2>🎀First ever valentine's day together🎀</h2>", unsafe_allow_html=True)
 
+# LOGIC: Show Main GIF while playing, Success GIF when done
 if st.session_state.yes_clicks < MAX_CLICKS:
+    # 1. THE MAIN GIF
+    st.markdown(f"<img src='{MAIN_GIF}' class='card-img' width='250'>", unsafe_allow_html=True)
+    st.markdown("<h1>❤️You will Be My Valentine!❤️</h1>", unsafe_allow_html=True)
+    st.markdown("<h2>🎀First ever valentine's day together🎀</h2>", unsafe_allow_html=True)
     st.markdown(f"<h2>{NOTES[st.session_state.yes_clicks]}</h2>", unsafe_allow_html=True)
+
 else:
+    # 2. THE SUCCESS GIF
     st.balloons()
+    st.markdown(f"<img src='{SUCCESS_GIF}' class='card-img' width='300'>", unsafe_allow_html=True)
     st.markdown("""
     <h1>🎉 IT’S A DATE 🎉</h1>
     <h2>💞 Thank you for saying YES 💞</h2>
@@ -109,42 +131,32 @@ st.markdown("</div>", unsafe_allow_html=True)
 # =========================
 if st.session_state.yes_clicks < MAX_CLICKS:
     
-    # Growth Logic: Small increments (Fixed)
     font_size = 22 + (st.session_state.yes_clicks * 2)
     padding_y = 12 + (st.session_state.yes_clicks * 2)
     padding_x = 24 + (st.session_state.yes_clicks * 4)
 
-    # Get Coordinates
     top_pos = st.session_state.btn_top
     left_pos = st.session_state.btn_left
     
-    # Determine Position Type
     pos_type = "relative" if st.session_state.yes_clicks == 0 else "fixed"
     
-    # Inject CSS
     st.markdown(f"""
     <style>
     div.stButton > button {{
         position: {pos_type} !important;
         top: {top_pos}% !important;
         left: {left_pos}% !important;
-        
-        /* Dynamic Size */
         font-size: {font_size}px !important;
         padding: {padding_y}px {padding_x}px !important;
-        
-        /* Layout Fixes (Prevents the 'Long Bar' Glitch) */
         height: auto !important;
         width: auto !important;
         white-space: nowrap !important;
-        
         z-index: 9999;
         transition: all 0.5s ease;
     }}
     </style>
     """, unsafe_allow_html=True)
 
-    # Render Button
     col1, col2, col3 = st.columns([1,1,1])
     with col2:
         if st.button(f"YES ❤️", key="yes_button"):
@@ -152,6 +164,3 @@ if st.session_state.yes_clicks < MAX_CLICKS:
             st.session_state.btn_top = random.randint(10, 80)
             st.session_state.btn_left = random.randint(10, 80)
             st.rerun()
-
-
-
