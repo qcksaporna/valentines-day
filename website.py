@@ -21,7 +21,7 @@ NOTES = [
 st.set_page_config(
     page_title=PAGE_TITLE,
     page_icon=PAGE_ICON,
-    layout="wide"
+    layout="wide",
 )
 
 # =========================
@@ -30,12 +30,12 @@ st.set_page_config(
 if "yes_clicks" not in st.session_state:
     st.session_state.yes_clicks = 0
 if "x_pos" not in st.session_state:
-    st.session_state.x_pos = 0
+    st.session_state.x_pos = 50
 if "y_pos" not in st.session_state:
-    st.session_state.y_pos = 0
+    st.session_state.y_pos = 50
 
 # =========================
-# CARD STYLING
+# STYLES (RESPONSIVE + AESTHETIC)
 # =========================
 st.markdown("""
 <style>
@@ -72,7 +72,7 @@ div.stButton > button:hover {
 """, unsafe_allow_html=True)
 
 # =========================
-# UI CARD
+# CARD UI
 # =========================
 st.markdown("<div class='card'>", unsafe_allow_html=True)
 st.markdown("<h1>💖 Will You Be My Valentine?</h1>", unsafe_allow_html=True)
@@ -99,24 +99,12 @@ if st.session_state.yes_clicks < MAX_CLICKS:
     st.session_state.y_pos = random.randint(0, 70)
 
     # Button grows with clicks
-    font_size = 22 + st.session_state.yes_clicks * 10
+    font_size = 24 + st.session_state.yes_clicks * 10
     padding_y = 12 + st.session_state.yes_clicks * 5
     padding_x = 32 + st.session_state.yes_clicks * 10
 
-    # Render the clickable Streamlit button in a container
-    button_html = f"""
-    <div style='position:absolute; left:{st.session_state.x_pos}vw; top:{st.session_state.y_pos}vh;'>
-        <form method="post">
-            <button type="submit" style="
-                font-size:{font_size}px; 
-                padding:{padding_y}px {padding_x}px;">
-                YES ❤️
-            </button>
-        </form>
-    </div>
-    """
-    st.markdown(button_html, unsafe_allow_html=True)
-
-    # Use Streamlit’s st.button with unique key to capture click
-    if st.button("💖", key="hidden_button"):
-        st.session_state.yes_clicks += 1
+    # Use columns to position button approximately (Streamlit cannot do absolute positioning fully)
+    col1, col2, col3 = st.columns([st.session_state.x_pos, 1, 100-st.session_state.x_pos])
+    with col2:
+        if st.button("YES ❤️", key=st.session_state.yes_clicks):
+            st.session_state.yes_clicks += 1
