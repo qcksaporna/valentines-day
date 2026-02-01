@@ -51,7 +51,7 @@ st.markdown("""
 body {
     background: radial-gradient(circle at center, #ffb6c1 40%, #8a2be2 70%, #00bfff 100%);
     font-family: 'Segoe UI', sans-serif;
-    overflow: hidden; /* Hide scrollbars so button doesn't go off edge easily */
+    overflow: hidden; /* Hide scrollbars */
     margin: 0;
 }
 
@@ -76,7 +76,7 @@ div.stButton > button {
     font-weight: bold;
     border: 2px solid white;
     box-shadow: 0px 0px 15px rgba(255, 105, 180, 0.7);
-    transition: all 0.5s ease; /* Makes it glide smoothly */
+    transition: all 0.5s ease; 
 }
 </style>
 """, unsafe_allow_html=True)
@@ -105,9 +105,8 @@ st.markdown("</div>", unsafe_allow_html=True)
 # =========================
 if st.session_state.yes_clicks < MAX_CLICKS:
     
-    font_size = 22 + (st.session_state.yes_clicks * 4)
-    
-    # Padding grows slowly too
+    # Growth Logic: Small increments (Fixed)
+    font_size = 22 + (st.session_state.yes_clicks * 2)
     padding_y = 12 + (st.session_state.yes_clicks * 2)
     padding_x = 24 + (st.session_state.yes_clicks * 4)
 
@@ -125,8 +124,16 @@ if st.session_state.yes_clicks < MAX_CLICKS:
         position: {pos_type} !important;
         top: {top_pos}% !important;
         left: {left_pos}% !important;
+        
+        /* Dynamic Size */
         font-size: {font_size}px !important;
         padding: {padding_y}px {padding_x}px !important;
+        
+        /* Layout Fixes (Prevents the 'Long Bar' Glitch) */
+        height: auto !important;
+        width: auto !important;
+        white-space: nowrap !important;
+        
         z-index: 9999;
         transition: all 0.5s ease;
     }}
@@ -141,4 +148,3 @@ if st.session_state.yes_clicks < MAX_CLICKS:
             st.session_state.btn_top = random.randint(10, 80)
             st.session_state.btn_left = random.randint(10, 80)
             st.rerun()
-
