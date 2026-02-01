@@ -86,7 +86,7 @@ div.stButton > button {
 # =========================
 st.markdown("<div class='card'>", unsafe_allow_html=True)
 st.markdown("<h1>❤️You will Be My Valentine!❤️</h1>", unsafe_allow_html=True)
-st.markdown("<h2>🎀❤️First ever valentine's day together❤️🎀</h2>", unsafe_allow_html=True)
+st.markdown("<h2>🎀First ever valentine's day together🎀</h2>", unsafe_allow_html=True)
 
 if st.session_state.yes_clicks < MAX_CLICKS:
     st.markdown(f"<h2>{NOTES[st.session_state.yes_clicks]}</h2>", unsafe_allow_html=True)
@@ -148,4 +148,5 @@ if st.session_state.yes_clicks < MAX_CLICKS:
             st.session_state.btn_top = random.randint(10, 80)
             st.session_state.btn_left = random.randint(10, 80)
             st.rerun()
+
 
