@@ -105,11 +105,6 @@ st.markdown("</div>", unsafe_allow_html=True)
 # =========================
 if st.session_state.yes_clicks < MAX_CLICKS:
     
-    # OLD WAY (Too big):
-    # font_size = 22 + st.session_state.yes_clicks * 50 
-
-    # NEW WAY (Gentle growth):
-    # Base size 22px + 4px for every click
     font_size = 22 + (st.session_state.yes_clicks * 4)
     
     # Padding grows slowly too
@@ -146,3 +141,4 @@ if st.session_state.yes_clicks < MAX_CLICKS:
             st.session_state.btn_top = random.randint(10, 80)
             st.session_state.btn_left = random.randint(10, 80)
             st.rerun()
+
