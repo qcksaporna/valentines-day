@@ -61,7 +61,7 @@ st.markdown("""
 <style>
 /* Gradient background */
 body {
-    background: radial-gradient(circle at center, #ffb6c1 40%, #8a2be2 70%, #00bfff 100%);
+    background: radial-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
     font-family: 'Segoe UI', sans-serif;
     overflow: hidden;
     margin: 0;
@@ -168,3 +168,4 @@ if st.session_state.yes_clicks < MAX_CLICKS:
             st.session_state.btn_top = random.randint(10, 80)
             st.session_state.btn_left = random.randint(10, 80)
             st.rerun()
+
