@@ -21,52 +21,65 @@ NOTES = [
 st.set_page_config(
     page_title=PAGE_TITLE,
     page_icon=PAGE_ICON,
-    layout="wide",
+    layout="centered",
 )
 
 # =========================
-# STATE MANAGEMENT
+# STATE
 # =========================
 if "yes_clicks" not in st.session_state:
     st.session_state.yes_clicks = 0
-if "x_pos" not in st.session_state:
-    st.session_state.x_pos = 50
-if "y_pos" not in st.session_state:
-    st.session_state.y_pos = 50
 
 # =========================
-# STYLES (RESPONSIVE + AESTHETIC)
+# STYLING
 # =========================
 st.markdown("""
 <style>
+/* Gradient background: pink center, violet & blue sides */
 body {
-    background: linear-gradient(135deg, #ffb6c1, #00bfff, #8a2be2);
+    background: radial-gradient(circle at center, #ffb6c1 40%, #8a2be2 70%, #00bfff 100%);
     font-family: 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 0;
 }
+
+/* Center card */
 .card {
     background: rgba(255, 255, 255, 0.15);
-    padding: 2rem;
+    padding: 2.5rem;
     border-radius: 24px;
     text-align: center;
-    max-width: 500px;
-    margin: 5% auto;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    max-width: 450px;
+    margin: 8% auto;
     color: white;
 }
+
+/* Headings */
 h1, h2 {
     margin: 0.5rem 0;
 }
+
+/* YES button */
 div.stButton > button {
     border-radius: 50px;
     background-color: #ff69b4;
     color: white;
     font-weight: bold;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
 }
+
 div.stButton > button:hover {
     background-color: #ff85c1;
     transform: scale(1.05);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+    div.stButton > button {
+        font-size: 20px !important;
+        padding: 12px 32px !important;
+    }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -91,20 +104,14 @@ else:
 st.markdown("</div>", unsafe_allow_html=True)
 
 # =========================
-# FLOATING YES BUTTON (CLICKABLE)
+# YES BUTTON
 # =========================
 if st.session_state.yes_clicks < MAX_CLICKS:
-    # Randomize position each render
-    st.session_state.x_pos = random.randint(0, 70)
-    st.session_state.y_pos = random.randint(0, 70)
-
-    # Button grows with clicks
-    font_size = 24 + st.session_state.yes_clicks * 10
+    font_size = 22 + st.session_state.yes_clicks * 10
     padding_y = 12 + st.session_state.yes_clicks * 5
     padding_x = 32 + st.session_state.yes_clicks * 10
 
-    # Use columns to position button approximately (Streamlit cannot do absolute positioning fully)
-    col1, col2, col3 = st.columns([st.session_state.x_pos, 1, 100-st.session_state.x_pos])
-    with col2:
-        if st.button("YES ❤️", key=st.session_state.yes_clicks):
-            st.session_state.yes_clicks += 1
+    # Centered button
+    st.markdown(
+        f"<div style='display:flex; justify-content:center; margin-top:2rem;'>",
+        unsafe_allow_html
