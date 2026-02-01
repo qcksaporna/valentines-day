@@ -104,14 +104,22 @@ else:
 st.markdown("</div>", unsafe_allow_html=True)
 
 # =========================
-# YES BUTTON
+# YES BUTTON (CENTERED)
 # =========================
 if st.session_state.yes_clicks < MAX_CLICKS:
     font_size = 22 + st.session_state.yes_clicks * 10
     padding_y = 12 + st.session_state.yes_clicks * 5
     padding_x = 32 + st.session_state.yes_clicks * 10
 
-    # Centered button
+    # Open div for centering
     st.markdown(
         f"<div style='display:flex; justify-content:center; margin-top:2rem;'>",
-        unsafe_allow_html
+        unsafe_allow_html=True
+    )
+
+    # Streamlit button
+    if st.button("YES ❤️", key=st.session_state.yes_clicks):
+        st.session_state.yes_clicks += 1
+
+    # Close div
+    st.markdown("</div>", unsafe_allow_html=True)
