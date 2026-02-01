@@ -21,7 +21,7 @@ NOTES = [
 st.set_page_config(
     page_title=PAGE_TITLE,
     page_icon=PAGE_ICON,
-    layout="wide",
+    layout="wide"
 )
 
 # =========================
@@ -30,24 +30,19 @@ st.set_page_config(
 if "yes_clicks" not in st.session_state:
     st.session_state.yes_clicks = 0
 if "x_pos" not in st.session_state:
-    st.session_state.x_pos = 50
+    st.session_state.x_pos = 0
 if "y_pos" not in st.session_state:
-    st.session_state.y_pos = 50
+    st.session_state.y_pos = 0
 
 # =========================
-# STYLES (RESPONSIVE + AESTHETIC)
+# CARD STYLING
 # =========================
 st.markdown("""
 <style>
-/* Body background gradient */
 body {
     background: linear-gradient(135deg, #ffb6c1, #00bfff, #8a2be2);
     font-family: 'Segoe UI', sans-serif;
-    overflow: hidden;
-    margin: 0;
 }
-
-/* Center card */
 .card {
     background: rgba(255, 255, 255, 0.15);
     padding: 2rem;
@@ -56,58 +51,35 @@ body {
     max-width: 500px;
     margin: 5% auto;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-
-/* Headings */
-h1, h2 {
     color: white;
-    margin-bottom: 0.5rem;
 }
-
-/* Floating YES button */
-#yes-btn {
-    position: absolute;
-    cursor: pointer;
-    border: none;
+h1, h2 {
+    margin: 0.5rem 0;
+}
+div.stButton > button {
     border-radius: 50px;
-    background: #ff69b4;
+    background-color: #ff69b4;
     color: white;
     font-weight: bold;
-    font-size: 24px;
-    padding: 15px 40px;
     transition: all 0.3s ease;
     box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-    z-index: 9999;
 }
-
-/* Hover effect */
-#yes-btn:hover {
-    background: #ff85c1;
+div.stButton > button:hover {
+    background-color: #ff85c1;
     transform: scale(1.05);
-}
-
-/* Responsive YES button for small screens */
-@media (max-width: 480px) {
-    #yes-btn {
-        font-size: 20px !important;
-        padding: 12px 32px !important;
-    }
 }
 </style>
 """, unsafe_allow_html=True)
 
 # =========================
-# CARD
+# UI CARD
 # =========================
 st.markdown("<div class='card'>", unsafe_allow_html=True)
 st.markdown("<h1>💖 Will You Be My Valentine?</h1>", unsafe_allow_html=True)
 st.markdown("<h2>💖 💙 💜 💌 💍</h2>", unsafe_allow_html=True)
 
 if st.session_state.yes_clicks < MAX_CLICKS:
-    st.markdown(
-        f"<h2>{NOTES[st.session_state.yes_clicks]}</h2>",
-        unsafe_allow_html=True
-    )
+    st.markdown(f"<h2>{NOTES[st.session_state.yes_clicks]}</h2>", unsafe_allow_html=True)
 else:
     st.balloons()
     st.markdown("""
@@ -119,45 +91,32 @@ else:
 st.markdown("</div>", unsafe_allow_html=True)
 
 # =========================
-# FLOATING YES BUTTON
+# FLOATING YES BUTTON (CLICKABLE)
 # =========================
 if st.session_state.yes_clicks < MAX_CLICKS:
-    # Random position for desktop/mobile (viewport width/height)
-    st.session_state.x_pos = random.randint(10, 80)
-    st.session_state.y_pos = random.randint(10, 80)
-    font_size = 24 + (st.session_state.yes_clicks * 10)
-    padding_y = 15 + st.session_state.yes_clicks * 5
-    padding_x = 40 + st.session_state.yes_clicks * 10
+    # Randomize position each render
+    st.session_state.x_pos = random.randint(0, 70)
+    st.session_state.y_pos = random.randint(0, 70)
 
-    # Render the floating button
-    st.markdown(f"""
-    <button id='yes-btn' 
-        style='left:{st.session_state.x_pos}vw; top:{st.session_state.y_pos}vh; font-size:{font_size}px; padding:{padding_y}px {padding_x}px;'
-        onclick="window.streamlitYesClicked()">
-        YES ❤️
-    </button>
+    # Button grows with clicks
+    font_size = 22 + st.session_state.yes_clicks * 10
+    padding_y = 12 + st.session_state.yes_clicks * 5
+    padding_x = 32 + st.session_state.yes_clicks * 10
 
-    <script>
-    const btn = document.getElementById('yes-btn');
-    btn.onclick = () => {{
-        const streamlitEvent = new CustomEvent("streamlitYesClicked");
-        window.dispatchEvent(streamlitEvent);
-    }}
-    </script>
-    """, unsafe_allow_html=True)
+    # Render the clickable Streamlit button in a container
+    button_html = f"""
+    <div style='position:absolute; left:{st.session_state.x_pos}vw; top:{st.session_state.y_pos}vh;'>
+        <form method="post">
+            <button type="submit" style="
+                font-size:{font_size}px; 
+                padding:{padding_y}px {padding_x}px;">
+                YES ❤️
+            </button>
+        </form>
+    </div>
+    """
+    st.markdown(button_html, unsafe_allow_html=True)
 
-# =========================
-# STREAMLIT BUTTON CALLBACK
-# =========================
-# Capture clicks from floating YES
-def increment_clicks():
-    st.session_state.yes_clicks += 1
-
-# Streamlit event listener hack
-st.components.v1.html("""
-<script>
-window.streamlitYesClicked = () => {
-    fetch("/_stcore/streamlitYesClicked");
-}
-</script>
-""")
+    # Use Streamlit’s st.button with unique key to capture click
+    if st.button("💖", key="hidden_button"):
+        st.session_state.yes_clicks += 1
