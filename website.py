@@ -102,7 +102,6 @@ else:
     """, unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
-
 # =========================
 # YES BUTTON (CENTERED)
 # =========================
@@ -111,15 +110,9 @@ if st.session_state.yes_clicks < MAX_CLICKS:
     padding_y = 12 + st.session_state.yes_clicks * 5
     padding_x = 32 + st.session_state.yes_clicks * 10
 
-    # Open div for centering
-    st.markdown(
-        f"<div style='display:flex; justify-content:center; margin-top:2rem;'>",
-        unsafe_allow_html=True
-    )
-
-    # Streamlit button
-    if st.button("YES ❤️", key=st.session_state.yes_clicks):
+    # Centered button
+    st.markdown("<div style='display:flex; justify-content:center; margin-top:2rem;'>", unsafe_allow_html=True)
+    # Only ONE real button, no extra hidden buttons
+    if st.button(f"YES ❤️", key="yes_button"):
         st.session_state.yes_clicks += 1
-
-    # Close div
     st.markdown("</div>", unsafe_allow_html=True)
