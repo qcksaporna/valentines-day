@@ -105,20 +105,25 @@ st.markdown("</div>", unsafe_allow_html=True)
 # =========================
 if st.session_state.yes_clicks < MAX_CLICKS:
     
-    # 1. Calculate Size (Growing effect)
-    font_size = 20 + (st.session_state.yes_clicks * 2) 
-    padding = 10 + (st.session_state.yes_clicks * 2)
+    # OLD WAY (Too big):
+    # font_size = 22 + st.session_state.yes_clicks * 50 
+
+    # NEW WAY (Gentle growth):
+    # Base size 22px + 4px for every click
+    font_size = 22 + (st.session_state.yes_clicks * 4)
     
-    # 2. Get Coordinates from State
+    # Padding grows slowly too
+    padding_y = 12 + (st.session_state.yes_clicks * 2)
+    padding_x = 24 + (st.session_state.yes_clicks * 4)
+
+    # Get Coordinates
     top_pos = st.session_state.btn_top
     left_pos = st.session_state.btn_left
     
-    # 3. Determine Position Type
-    # If it's the very first click (0), keep it relative (centered). 
-    # After that, switch to 'fixed' so it jumps around.
+    # Determine Position Type
     pos_type = "relative" if st.session_state.yes_clicks == 0 else "fixed"
     
-    # 4. Inject Dynamic CSS for the button
+    # Inject CSS
     st.markdown(f"""
     <style>
     div.stButton > button {{
@@ -126,23 +131,18 @@ if st.session_state.yes_clicks < MAX_CLICKS:
         top: {top_pos}% !important;
         left: {left_pos}% !important;
         font-size: {font_size}px !important;
-        padding: {padding}px !important;
-        z-index: 9999; /* Ensure it floats above everything */
+        padding: {padding_y}px {padding_x}px !important;
+        z-index: 9999;
+        transition: all 0.5s ease;
     }}
     </style>
     """, unsafe_allow_html=True)
 
-    # 5. Render Button
-    # We put it in a container to prevent layout shifting
+    # Render Button
     col1, col2, col3 = st.columns([1,1,1])
     with col2:
         if st.button(f"YES ❤️", key="yes_button"):
-            # Update Click Count
             st.session_state.yes_clicks += 1
-            
-            # Generate NEW Random Position for next reload
-            # We keep it between 10% and 80% to keep it on screen
             st.session_state.btn_top = random.randint(10, 80)
             st.session_state.btn_left = random.randint(10, 80)
-            
             st.rerun()
