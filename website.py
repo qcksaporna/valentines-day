@@ -14,7 +14,7 @@ MAX_CLICKS = 14
 # ------------------------------------------------------
 MAIN_GIF = "https://media.tenor.com/0cNM_9li440AAAAi/dudu-giving-flowers-bubu-flowers.gif" 
 
-SUCCESS_GIF = "https://media.tenor.com/OrxXcqX25KcAAAAi/dudu-bubu-love-gif.gif"
+SUCCESS_GIF = "https://media.tenor.com/oWTGv7XpHY4AAAAi/sseeyall-bubu-dudu.gif"
 # ------------------------------------------------------
 
 NOTES = [
@@ -181,6 +181,7 @@ if st.session_state.yes_clicks < MAX_CLICKS:
             st.session_state.btn_top = random.randint(10, 80)
             st.session_state.btn_left = random.randint(10, 80)
             st.rerun()
+
 
 
 
