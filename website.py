@@ -12,8 +12,7 @@ MAX_CLICKS = 14
 # ------------------------------------------------------
 # 📷 PASTE YOUR GIF LINKS HERE
 # ------------------------------------------------------
-BG_GIF = "https://media.tenor.com/aMOxt0o16TQAAAAi/bubu-bubu-dudu.gif"
-MAIN_GIF = "https://media.tenor.com/-JToZdYDcREAAAAi/dudu-give-flowers-bubu-gif.gif" 
+MAIN_GIF = "https://media.tenor.com/0cNM_9li440AAAAi/dudu-giving-flowers-bubu-flowers.gif" 
 
 SUCCESS_GIF = "https://media.tenor.com/OrxXcqX25KcAAAAi/dudu-bubu-love-gif.gif"
 # ------------------------------------------------------
@@ -182,6 +181,7 @@ if st.session_state.yes_clicks < MAX_CLICKS:
             st.session_state.btn_top = random.randint(10, 80)
             st.session_state.btn_left = random.randint(10, 80)
             st.rerun()
+
 
 
 
